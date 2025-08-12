@@ -1,0 +1,74 @@
+[
+  {
+    "id": "p1",
+    "name": "Vihaan Bhat",
+    "team": "Mumbai Indians",
+    "matches": 188,
+    "runs": 136,
+    "wickets": 1,
+    "role": "bowler"
+  },
+  {
+    "id": "p2",
+    "name": "Tanay Patel",
+    "team": "Mumbai Indians",
+    "matches": 34,
+    "runs": 96,
+    "wickets": 252,
+    "role": "bowler"
+  },
+  {
+    "id": "p3",
+    "name": "Dev Bhat",
+    "team": "Royal Challengers Bangalore",
+    "matches": 75,
+    "runs": 5167,
+    "wickets": 0,
+    "role": "batsman"
+  },
+  {
+    "id": "p4",
+    "name": "Ishan Kumar",
+    "team": "Delhi Capitals",
+    "matches": 33,
+    "runs": 380,
+    "wickets": 0,
+    "role": "wk"
+  },
+  {
+    "id": "p5",
+    "name": "Ishan Sharma",
+    "team": "Kolkata Knight Riders",
+    "matches": 112,
+    "runs": 179,
+    "wickets": 82,
+    "role": "bowler"
+  },
+  {
+    "id": "p6",
+    "name": "Kartik Chopra",
+    "team": "Mumbai Indians",
+    "matches": 206,
+    "runs": 250,
+    "wickets": 0,
+    "role": "batsman"
+  },
+  {
+    "id": "p7",
+    "name": "Harsh Desai",
+    "team": "Kolkata Knight Riders",
+    "matches": 39,
+    "runs": 1081,
+    "wickets": 242,
+    "role": "ar"
+  },
+  {
+    "id": "p8",
+    "name": "Aman Gupta",
+    "team": "Delhi Capitals",
+    "matches": 4,
+    "runs": 168,
+    "wickets": 146,
+    "role": "bowler"
+  }
+]
