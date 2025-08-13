@@ -34,7 +34,7 @@ export default function LiveMatches(){
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-semibold">Live Matches</h2>
         <div className="flex items-center gap-2">
-          <button onClick={manualRefresh} disabled={loading} className={`px-3 py-2 rounded text-white transition-colors ${loading ? 'bg-gray-400 cursor-not-allowed' : 'bg-sporty hover:brightness-110'}`}>
+          <button onClick={manualRefresh} disabled={loading} className={`px-3 py-2 rounded text-white transition-colors ${loading ? 'bg-gray-400 cursor-not-allowed' : 'btn-sporty'}`}>
             {loading ? 'Refreshing...' : 'Refresh'}
           </button>
         </div>
@@ -46,7 +46,7 @@ export default function LiveMatches(){
 
       {completedMatches.length > 0 && (
         <div>
-          <h3 className="text-lg font-semibold mb-3">Completed Matches</h3>
+          <h3 className="text-lg font-semibold mb-3 text-primary dark:text-white">Completed Matches</h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
             {completedMatches.map(m => <MatchCard key={m.id} match={m} />)}
           </div>

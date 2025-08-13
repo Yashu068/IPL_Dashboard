@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { AppContext } from '../context/AppContext'
 import { motion, AnimatePresence } from 'framer-motion'
+import { venueToCity } from '../utils/venueToCity'
+import { generateDummyWeather } from '../utils/weather'
 
 function Inning({inn}){
   return (
@@ -13,7 +15,7 @@ function Inning({inn}){
 }
 
 export default function MatchCard({ match }){
-  const { activeMatchId, setActiveMatchId } = useContext(AppContext)
+  const { activeMatchId, setActiveMatchId, weatherByVenue } = useContext(AppContext)
   const open = activeMatchId === match.id
   useEffect(()=>{
     if(!open) return
@@ -29,11 +31,19 @@ export default function MatchCard({ match }){
     >
       <div className="flex items-center justify-between mb-2">
         <div>
-          <div className="font-semibold">{match.teamA} vs {match.teamB}</div>
-          <div className="text-xs text-muted">{match.venue} • {match.status}</div>
+          <div className="font-semibold text-primary dark:text-white">{match.teamA} vs {match.teamB}</div>
+          <div className="text-xs text-muted">
+            {match.venue} • {match.status}
+            {(() => {
+              const data = weatherByVenue[match.venue] || generateDummyWeather(venueToCity(match.venue))
+              return (
+                <span> • {data.tempC}°C {data.condition}</span>
+              )
+            })()}
+          </div>
         </div>
         <div>
-          <button type="button" onClick={()=>setActiveMatchId(match.id)} className="px-3 py-1 rounded border transition-colors hover:bg-gray-50 dark:hover:bg-gray-800">Details</button>
+          <button type="button" onClick={()=>setActiveMatchId(match.id)} className="px-3 py-1 rounded border transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 btn-sporty border-none">Details</button>
         </div>
       </div>
 

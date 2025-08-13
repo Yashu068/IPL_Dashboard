@@ -6,6 +6,14 @@
   --transition: 200ms;
 }
 
+/* brand helpers */
+.btn-sporty {
+  @apply bg-sporty hover:bg-sportyDark text-white transition-colors duration-200;
+}
+.chip-muted {
+  @apply text-xs px-2 py-0.5 rounded bg-surface text-primary/80 dark:text-white/80;
+}
+
 /* loader */
 .loader {
   border: 4px solid rgba(0,0,0,0.1);

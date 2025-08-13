@@ -5,7 +5,7 @@ const teams = ['Mumbai Indians','Chennai Super Kings','Kolkata Knight Riders','R
 const roles = ['batsman','bowler','ar','wk']
 const first = ['Aarav','Vihaan','Arjun','Rohan','Kunal','Ishan','Sahil','Yash','Rudra','Kartik','Dev','Milan','Aditya']
 const last = ['Sharma','Singh','Kumar','Verma','Patel','Gupta','Mehta','Reddy','Nair','Kapoor']
-
+// Program to generate players
 const players = []
 for(let i=1;i<=220;i++){
   const name = `${first[Math.floor(Math.random()*first.length)]} ${last[Math.floor(Math.random()*last.length)]}`

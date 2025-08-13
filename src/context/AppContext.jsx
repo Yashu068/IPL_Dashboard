@@ -2,6 +2,8 @@ import React, { createContext, useEffect, useState } from 'react'
 import matchesData from '../data/matches.json'
 import playersSample from '../data/players.json'
 import { simulateMatchTick } from '../utils/simulateLive'
+import { venueToCity } from '../utils/venueToCity'
+import { fetchWeatherByCity, generateDummyWeather } from '../utils/weather'
 
 export const AppContext = createContext()
 
@@ -17,6 +19,7 @@ export const AppProvider = ({ children }) => {
   const [activeMatchId, setActiveMatchId] = useState(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
+  const [weatherByVenue, setWeatherByVenue] = useState({})
 
   useEffect(()=>{
     document.documentElement.classList.toggle('dark', theme === 'dark')
@@ -30,6 +33,22 @@ export const AppProvider = ({ children }) => {
     }, 30000)
     return ()=>clearInterval(id)
   },[])
+
+  // prefetch weather for visible venues (best-effort)
+  useEffect(()=>{
+    const uniqueVenues = Array.from(new Set(matches.map(m => m.venue)))
+    uniqueVenues.forEach(async (venue)=>{
+      if(weatherByVenue[venue]) return
+      const city = venueToCity(venue)
+      const res = await fetchWeatherByCity(city)
+      if(res.ok){
+        setWeatherByVenue(prev => ({ ...prev, [venue]: res.weather }))
+      } else {
+        setWeatherByVenue(prev => ({ ...prev, [venue]: generateDummyWeather(city) }))
+      }
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [matches])
 
   useEffect(()=>{
     localStorage.setItem('fantasyTeam', JSON.stringify(fantasyTeam))
@@ -57,17 +76,27 @@ export const AppProvider = ({ children }) => {
 
   const clearFantasy = ()=> setFantasyTeam([])
 
+  const reorderFantasyTeam = (sourceIndex, destIndex)=>{
+    setFantasyTeam(prev => {
+      const next = [...prev]
+      const [moved] = next.splice(sourceIndex, 1)
+      next.splice(destIndex, 0, moved)
+      return next
+    })
+  }
+
   return (
     <AppContext.Provider value={{
       theme, toggleTheme,
       matches, setMatches,
       players, setPlayers,
-      fantasyTeam, addPlayerToFantasy, removePlayerFromFantasy, clearFantasy,
+      fantasyTeam, addPlayerToFantasy, removePlayerFromFantasy, clearFantasy, reorderFantasyTeam,
       selectedTeam, setSelectedTeam,
       selectedVenue, setSelectedVenue,
       activeMatchId, setActiveMatchId,
       searchQuery, setSearchQuery,
       isSidebarOpen, setIsSidebarOpen
+      , weatherByVenue
     }}>
       {children}
     </AppContext.Provider>

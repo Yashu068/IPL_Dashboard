@@ -123,6 +123,17 @@ Note: For user/organization pages (served at the root), set `base: '/'`.
 ### Environment files
 No secrets are required for local run. If you add environment variables, use `.env` files locally; they are ignored by Git. Provide non-sensitive examples in `.env.example`.
 
+#### Weather setup (OpenWeatherMap)
+To show live weather on match cards:
+1) Create a free API key at [OpenWeatherMap API](https://openweathermap.org/api).
+2) Create a file named `.env` in the project root and add:
+```bash
+VITE_OPENWEATHER_API_KEY=YOUR_API_KEY_HERE
+```
+3) Restart the dev server.
+
+Weather is fetched per unique venue (mapped to a city) and displayed as temperature and condition next to the venue.
+
 ---
 
 ### License

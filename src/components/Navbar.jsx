@@ -23,7 +23,7 @@ export default function Navbar(){
     <nav className="sticky top-0 z-40 bg-white/90 dark:bg-primary/95 backdrop-blur p-3 border-b border-gray-200 dark:border-gray-700">
       <div className="max-w-7xl mx-auto flex flex-wrap items-center gap-2 md:gap-4">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-sporty rounded-full flex items-center justify-center text-white font-bold">IPL</div>
+          <div className="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold btn-sporty">IPL</div>
           <div className="font-semibold">IPL Live & Fantasy</div>
         </div>
 
@@ -46,17 +46,17 @@ export default function Navbar(){
                 setSearchQuery(val)
               }}
               placeholder="Search players or matches..."
-              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-primary text-sm"
+              className="w-full pl-10 pr-4 py-2 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-primary text-sm focus:ring-2 focus:ring-sporty/30 focus:border-sporty"
             />
           </div>
         </div>
 
         {/* Desktop links */}
         <div className="hidden md:flex items-center gap-3 ml-auto">
-          <NavLink to="/" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted'}>Live</NavLink>
-          <NavLink to="/players" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted'}>Players</NavLink>
-          <NavLink to="/fantasy" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted'}>Fantasy</NavLink>
-          <NavLink to="/analytics" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted'}>Analytics</NavLink>
+          <NavLink to="/" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted hover:text-sporty'}>Live</NavLink>
+          <NavLink to="/players" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted hover:text-sporty'}>Players</NavLink>
+          <NavLink to="/fantasy" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted hover:text-sporty'}>Fantasy</NavLink>
+          <NavLink to="/analytics" className={({isActive})=> isActive? 'text-sporty font-semibold':'text-muted hover:text-sporty'}>Analytics</NavLink>
           <button onClick={toggleTheme} aria-label="Toggle theme" className="p-2 rounded-md border border-gray-200 dark:border-gray-700">
             {theme === 'light' ? <FiMoon/> : <FiSun/>}
           </button>
