@@ -20,6 +20,7 @@ export const AppProvider = ({ children }) => {
   const [searchQuery, setSearchQuery] = useState('')
   const [isSidebarOpen, setIsSidebarOpen] = useState(false)
   const [weatherByVenue, setWeatherByVenue] = useState({})
+  const WEATHER_REFRESH_MS = 10 * 60 * 1000
 
   useEffect(()=>{
     document.documentElement.classList.toggle('dark', theme === 'dark')
@@ -34,21 +35,27 @@ export const AppProvider = ({ children }) => {
     return ()=>clearInterval(id)
   },[])
 
-  // prefetch weather for visible venues (best-effort)
+  const refreshWeatherForVenue = async (venue)=>{
+    const city = venueToCity(venue)
+    const res = await fetchWeatherByCity(city)
+    if(res.ok){
+      setWeatherByVenue(prev => ({ ...prev, [venue]: { ...res.weather, isDummy:false, fetchedAt: Date.now() } }))
+    } else {
+      setWeatherByVenue(prev => ({ ...prev, [venue]: { ...generateDummyWeather(city), fetchedAt: Date.now() } }))
+    }
+  }
+
+  // prefetch weather and refresh stale/dummy entries
   useEffect(()=>{
     const uniqueVenues = Array.from(new Set(matches.map(m => m.venue)))
     uniqueVenues.forEach(async (venue)=>{
-      if(weatherByVenue[venue]) return
-      const city = venueToCity(venue)
-      const res = await fetchWeatherByCity(city)
-      if(res.ok){
-        setWeatherByVenue(prev => ({ ...prev, [venue]: res.weather }))
-      } else {
-        setWeatherByVenue(prev => ({ ...prev, [venue]: generateDummyWeather(city) }))
-      }
+      const existing = weatherByVenue[venue]
+      const isStale = existing?.fetchedAt ? (Date.now() - existing.fetchedAt > WEATHER_REFRESH_MS) : true
+      const shouldFetch = !existing || existing.isDummy || isStale
+      if(!shouldFetch) return
+      refreshWeatherForVenue(venue)
     })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [matches])
+  }, [matches, weatherByVenue])
 
   useEffect(()=>{
     localStorage.setItem('fantasyTeam', JSON.stringify(fantasyTeam))
@@ -96,7 +103,7 @@ export const AppProvider = ({ children }) => {
       activeMatchId, setActiveMatchId,
       searchQuery, setSearchQuery,
       isSidebarOpen, setIsSidebarOpen
-      , weatherByVenue
+      , weatherByVenue, refreshWeatherForVenue
     }}>
       {children}
     </AppContext.Provider>

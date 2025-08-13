@@ -4,7 +4,7 @@ import { venueToCity } from '../utils/venueToCity'
 import { generateDummyWeather } from '../utils/weather'
 
 export default function Sidebar(){
-  const { matches, selectedTeam, setSelectedTeam, selectedVenue, setSelectedVenue, isSidebarOpen, setIsSidebarOpen, weatherByVenue } = useContext(AppContext)
+  const { matches, selectedTeam, setSelectedTeam, selectedVenue, setSelectedVenue, isSidebarOpen, setIsSidebarOpen, weatherByVenue, refreshWeatherForVenue } = useContext(AppContext)
   const [open, setOpen] = useState(true)
   const teams = Array.from(new Set(matches.flatMap(m => [m.teamA, m.teamB])))
   const venues = Array.from(new Set(matches.map(m => m.venue)))
@@ -47,8 +47,9 @@ export default function Sidebar(){
             {(() => {
               const data = weatherByVenue[selectedVenue] || generateDummyWeather(venueToCity(selectedVenue))
               return (
-                <div className="text-xs text-muted mt-1">
-                  {venueToCity(selectedVenue)} • {data.tempC}°C • {data.condition}
+                <div className="flex items-center justify-between text-xs text-muted mt-1">
+                  <span>{venueToCity(selectedVenue)} • {data.tempC}°C • {data.condition}</span>
+                  <button className="ml-2 px-2 py-1 rounded border btn-sporty border-none" onClick={()=>refreshWeatherForVenue(selectedVenue)}>Refresh</button>
                 </div>
               )
             })()}

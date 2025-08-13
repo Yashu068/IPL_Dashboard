@@ -44,6 +44,6 @@ export const generateDummyWeather = (city)=>{
   for(let i=0; i<city.length; i++) hash = (hash * 31 + city.charCodeAt(i)) >>> 0
   const tempC = 22 + (hash % 15) // 22..36
   const condition = conditions[hash % conditions.length]
-  return { tempC, condition, icon: '' }
+  return { tempC, condition, icon: '', isDummy: true }
 }
 
